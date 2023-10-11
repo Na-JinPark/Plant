@@ -1,0 +1,10 @@
+### sign up user
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "userId": "test1",
+  "userPassword": "1234",
+  "userType": "MANAGER",
+  "nickName": "testName"
+}
