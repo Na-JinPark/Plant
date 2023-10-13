@@ -1,10 +1,22 @@
-### sign up user
-POST http://localhost:8080/user
+### UserJoin(회원가입)
+POST http://localhost:8080/user/join
 Content-Type: application/json
 
 {
-  "userId": "test1",
-  "userPassword": "1234",
-  "userType": "MANAGER",
-  "nickName": "testName"
+  "loginId": "Id2",
+  "loginPassword": "Password2",
+  "userType": "GENERAL",
+  "nickName": "Id2NickName"
 }
+
+### ChangeNickName(닉네임 변경)
+POST http://localhost:8080/user/6/newNickName?newNickName=Id1NewNickName
+Content-Type: application/json
+
+### ChangeUserStatus(회원상태 변경)
+POST http://localhost:8080/user/6/userStatus?userStatus=USED
+Content-Type: application/json
+
+### GET request with a header
+GET http://localhost:8080/user/8
+Accept: application/json

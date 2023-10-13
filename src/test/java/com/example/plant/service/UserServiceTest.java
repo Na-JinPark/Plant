@@ -116,7 +116,7 @@ public class UserServiceTest {
 
     String newNickName = "newNickName";
 
-    given(userRepository.findById((BigInteger) any()))
+    given(userRepository.findByUserId((BigInteger) any()))
         .willReturn(Optional.of(user));
 
     // When
@@ -144,7 +144,7 @@ public class UserServiceTest {
 
     String newNickName = "newNickName";
 
-    given(userRepository.findById((BigInteger) any()))
+    given(userRepository.findByUserId((BigInteger) any()))
         .willReturn(Optional.of(user));
 
     // When
@@ -170,7 +170,7 @@ public class UserServiceTest {
 
     String newNickName = "nickName";
 
-    given(userRepository.findById((BigInteger) any()))
+    given(userRepository.findByUserId((BigInteger) any()))
         .willReturn(Optional.of(user));
 
     // When
@@ -194,7 +194,7 @@ public class UserServiceTest {
         .userStatus(UserStatus.USED)
         .build();
 
-    given(userRepository.findById((BigInteger) any()))
+    given(userRepository.findByUserId((BigInteger) any()))
         .willReturn(Optional.of(user));
 
     // When
@@ -220,7 +220,7 @@ public class UserServiceTest {
         .userStatus(UserStatus.UNUSED)
         .build();
 
-    given(userRepository.findById((BigInteger) any()))
+    given(userRepository.findByUserId((BigInteger) any()))
         .willReturn(Optional.of(user));
 
     // When
@@ -244,7 +244,7 @@ public class UserServiceTest {
         .userStatus(UserStatus.USED)
         .build();
 
-    given(userRepository.findById((BigInteger) any()))
+    given(userRepository.findByUserId((BigInteger) any()))
         .willReturn(Optional.of(user));
 
     // When

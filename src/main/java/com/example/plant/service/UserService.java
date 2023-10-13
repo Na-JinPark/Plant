@@ -91,7 +91,7 @@ public class UserService {
   }
 
   public User getUser(BigInteger userId) {
-    User user = userRepository.findById(userId)
+    User user = userRepository.findByUserId(userId)
         .orElseThrow(() -> new PlantException(INVALID_USER));
 
     return user;

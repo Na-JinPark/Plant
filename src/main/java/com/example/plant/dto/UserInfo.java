@@ -15,7 +15,7 @@ public class UserInfo {
     private String loginId;
   }
 
-  @Setter
+  @Getter
   @Builder
   public static class Response {
 

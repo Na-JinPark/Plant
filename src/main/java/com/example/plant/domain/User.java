@@ -2,6 +2,7 @@ package com.example.plant.domain;
 
 import com.example.plant.type.UserStatus;
 import com.example.plant.type.UserType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;

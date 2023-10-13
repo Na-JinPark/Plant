@@ -45,7 +45,7 @@ public class UserController {
    * 파라미터 : 사용자 아이디, 변경할 닉네임
    * 성공응답 : 사용자 아이디, 비밀번호, 닉네임, 사용자 유형
    */
-  @PostMapping("/users/{userId}/newNickName")
+  @PostMapping("/user/{userId}/newNickName")
   public UserInfo.Response changeNickname(
       @PathVariable BigInteger userId,
       @RequestParam String newNickName
@@ -55,7 +55,7 @@ public class UserController {
     );
   }
 
-  @PostMapping("/users/{loginId}/userStatus")
+  @PostMapping("/user/{userId}/userStatus")
   public UserInfo.Response changeUserStatus(
       @PathVariable BigInteger userId,
       @RequestParam UserStatus userStatus
@@ -70,7 +70,7 @@ public class UserController {
    * 파라미터 : 사용자 아이디
    * 성공응답 : 사용자 아이디, 비밀번호, 닉네임, 사용자 유형
    */
-  @GetMapping("user/{id}")
+  @GetMapping("user/{userId}")
   public UserInfo.Response userInfo(
       @PathVariable BigInteger userId) {
     return UserInfo.Response.from(

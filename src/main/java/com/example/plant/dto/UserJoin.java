@@ -2,6 +2,7 @@ package com.example.plant.dto;
 
 import com.example.plant.type.UserType;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,11 +18,11 @@ public class UserJoin {
     private String loginPassword;
     @NotEmpty
     private String nickName;
-    @NotEmpty
+    @NotNull
     private UserType userType;
   }
 
-  @Setter
+  @Getter
   @Builder
   public static class Response {
 
@@ -34,7 +35,7 @@ public class UserJoin {
       return Response.builder()
           .loginId(userDto.getLoginId())
           .loginPassword(userDto.getLoginPassword())
-          .loginPassword(userDto.getNickName())
+          .nickName(userDto.getNickName())
           .userType(userDto.getUserType())
           .build();
     }
