@@ -1,6 +1,8 @@
 package com.example.plant.service;
 
+import static com.example.plant.type.ErrorCode.NO_PLANT_INFORMATION;
 import static com.example.plant.type.ErrorCode.PLANT_SAME_NICKNAME;
+import static com.example.plant.type.ErrorCode.UNUSED_PLANT_INFORMATION;
 
 import com.example.plant.domain.Plant;
 import com.example.plant.domain.User;
@@ -28,7 +30,7 @@ public class PlantService {
 
     User user = userService.userInfo(userId);
 
-    validationPlant(nickName, userId);
+    chkPlantNickName(nickName, userId);
 
     return PlantDto.fromEntity(
         plantRepository.save(Plant.builder()
@@ -40,7 +42,58 @@ public class PlantService {
     );
   }
 
-  private void validationPlant(String nickName, BigInteger userId){
+  /*
+   * 관리 식물 편집
+   * 파라미터 : 식물 별칭, 종류, 사진, 키우기 시작한날짜, 식물 관리 여부
+   * 정책 : 식물아이디가 존재 하지 않는 경우, 식물 관리 여부가 UNUSED인 경우, 변경할려는 별칭이 존재하는 경우 실패 응답
+   */
+  public PlantDto plantUpdate(String nickName, String plantName, Date firstDate, BigInteger plantId){
+
+    Plant plant = plantInfo(plantId);
+
+    if(nickName != null){
+      chkPlantNickName(nickName, plant.getUser().getUserId());
+      plant.setNickName(nickName);
+    }
+    if(plantName != null){
+      plant.setPlantName(plantName);
+    }
+    if(firstDate != null){
+      plant.setFirstDate(firstDate);
+    }
+
+    plantRepository.save(plant);
+
+    return PlantDto.fromEntity(plant);
+  }
+
+  /*
+   * 관리 식물 삭제
+   * 파라미터 : 식물 아이디
+   * 정책 : 식물아이디가 존재 하지 않는 경우, 식물 관리 여부가 이미 UNUSED인 경우 실패 응답
+   */
+  public PlantDto plantDelete(BigInteger plantId){
+
+    Plant plant = plantInfo(plantId);
+    plant.setPlantStatus(Status.UNUSED);
+    plantRepository.save(plant);
+
+    return PlantDto.fromEntity(plant);
+  }
+
+  public Plant plantInfo(BigInteger plantId){
+    Plant plant = plantRepository.findById(plantId)
+        .orElseThrow(() -> new PlantException(NO_PLANT_INFORMATION));
+    if(!plantStatus(plant)) throw new PlantException(UNUSED_PLANT_INFORMATION);
+    return plant;
+  }
+
+  private boolean plantStatus(Plant plant){
+    if(plant.getPlantStatus().equals(Status.USED)) return  true;
+    else return false;
+  }
+
+  private void chkPlantNickName(String nickName, BigInteger userId){
     if(plantRepository.findByUser_UserIdAndNickNameAndPlantStatus(userId,nickName, Status.USED).isPresent()){
         throw new PlantException(PLANT_SAME_NICKNAME);
     }

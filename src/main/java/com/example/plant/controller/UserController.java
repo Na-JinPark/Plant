@@ -56,6 +56,11 @@ public class UserController {
     );
   }
 
+  /*
+   * 회원 상태 변경 api
+   * 파라미터 : 사용자 아이디, 변경할 닉네임
+   * 성공응답 : 사용자 아이디, 비밀번호, 닉네임, 사용자 유형
+   */
   @PostMapping("/user/{userId}/userStatus")
   public UserInfo.Response changeUserStatus(
       @PathVariable BigInteger userId,

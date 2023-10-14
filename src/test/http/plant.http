@@ -8,3 +8,20 @@ Content-Type: application/json
   "firstDate": "2203-10-14",
   "userId": 6
 }
+
+### PlantUpdate(관리 식물 편집)
+POST http://localhost:8080/plant/update
+Content-Type: application/json
+
+{
+  "firstDate": "2203-10-18",
+  "plantId": 1
+}
+
+### PlantDelete(관리 식물 삭제)
+POST http://localhost:8080/plant/delete
+Content-Type: application/json
+
+{
+  "plantId": 2
+}

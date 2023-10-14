@@ -18,5 +18,5 @@ POST http://localhost:8080/user/6/userStatus?userStatus=USED
 Content-Type: application/json
 
 ### GET request with a header
-GET http://localhost:8080/user/8
+GET http://localhost:8080/user/10
 Accept: application/json

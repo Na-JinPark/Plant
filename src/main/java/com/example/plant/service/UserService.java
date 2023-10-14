@@ -46,7 +46,7 @@ public class UserService {
   /*
    * 사용자 닉네임 변경
    * 파라미터 : 사용자 아이디, 비밀번호, 닉네임, 유형
-   * 정책 : 회원상태가 UNUSED 이거나 동일한 닉네임으로 변경하렬는 경우 실패 응답
+   * 정책 : 회원상태가 UNUSED 이거나 동일한 닉네임으로 변경하려는 경우 실패 응답
    */
   public UserDto changeNickName(BigInteger userId, String newNickName) {
 
@@ -67,6 +67,7 @@ public class UserService {
    * 회원 상태 변경
    * 파라미터 : 사용자 아이디, 회원 상태
    * 정책 : 동일한 회원상태일 경우 실패 응답
+   *       회원 탈퇴를 하더라도 한달안에 활성화 가능하도록 추가할 예정
    */
   public UserDto changeUserStatus(BigInteger userId, UserStatus userStatus) {
 

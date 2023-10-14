@@ -5,6 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.example.plant.domain.Plant;
 import com.example.plant.domain.User;
@@ -103,4 +105,136 @@ class PlantServiceTest {
     assertEquals(ErrorCode.PLANT_SAME_NICKNAME, exception.getErrorCode());
   }
 
+  @Test
+  @DisplayName("관리 식물 수정 성공")
+  void successPlantUpdate() {
+    // Given
+    User user = User.builder()
+        .userId(BigInteger.ONE)
+        .loginId("loginId")
+        .loginPassword("loginPassword")
+        .nickName("nickName")
+        .userType(UserType.GENERAL)
+        .build();
+
+    Plant plant = Plant.builder()
+        .nickName("베리베리")
+        .plantName("산세베리아")
+        .firstDate(new Date(2023-04-05))
+        .plantId(BigInteger.ONE)
+        .user(user)
+        .build();
+
+    given(plantRepository.findById(any()))
+        .willReturn(Optional.of(plant));
+
+    // When
+    PlantDto savePlant = plantService.plantUpdate("베리베리", null,null, BigInteger.ONE);
+
+    // Then
+    verify(plantRepository, times(1)).save(plant);
+
+    assertEquals(plant.getNickName(), savePlant.getNickName());
+    assertEquals(plant.getPlantName(), savePlant.getPlantName());
+    assertEquals(plant.getFirstDate(), savePlant.getFirstDate());
+  }
+
+  @Test
+  @DisplayName("관리 식물 수정 실패 - 식물 관리 여부가 UNUSED")
+  void failPlantUpdateStatusUnused() {
+    // Given
+    User user = User.builder()
+        .userId(BigInteger.ONE)
+        .loginId("loginId")
+        .loginPassword("loginPassword")
+        .nickName("nickName")
+        .userType(UserType.GENERAL)
+        .build();
+
+    Plant plant = Plant.builder()
+        .nickName("베리베리")
+        .plantName("산세베리아")
+        .firstDate(new Date(2023-04-05))
+        .plantId(BigInteger.ONE)
+        .user(user)
+        .plantStatus(Status.UNUSED)
+        .build();
+
+    given(plantRepository.findById(any()))
+        .willReturn(Optional.of(plant));
+
+    // When
+    PlantException exception = assertThrows(PlantException.class,
+        () -> plantService.plantUpdate("베리베리", null,null, BigInteger.ONE));
+
+    // Then
+    assertEquals(ErrorCode.UNUSED_PLANT_INFORMATION, exception.getErrorCode());
+  }
+
+  @Test
+  @DisplayName("관리 식물 수정 실패 - 중복 별칭")
+  void failPlantUpdateSameNickName() {
+    // Given
+    User user = User.builder()
+        .userId(BigInteger.ONE)
+        .loginId("loginId")
+        .loginPassword("loginPassword")
+        .nickName("nickName")
+        .userType(UserType.GENERAL)
+        .build();
+
+    Plant plant = Plant.builder()
+        .nickName("베리베리")
+        .plantName("산세베리아")
+        .firstDate(new Date(2023-04-05))
+        .plantId(BigInteger.ONE)
+        .user(user)
+        .plantStatus(Status.USED)
+        .build();
+
+    given(plantRepository.findById(any()))
+        .willReturn(Optional.of(plant));
+
+    given(plantRepository.findByUser_UserIdAndNickNameAndPlantStatus(any(),any(),any()))
+        .willReturn(Optional.of(plant));
+
+    // When
+    PlantException exception = assertThrows(PlantException.class,
+        () -> plantService.plantUpdate("베리베리", null,null, BigInteger.ONE));
+
+    // Then
+    assertEquals(ErrorCode.PLANT_SAME_NICKNAME, exception.getErrorCode());
+  }
+
+  @Test
+  @DisplayName("관리 식물 삭제 성공")
+  void successPlantDelete() {
+    // Given
+    User user = User.builder()
+        .userId(BigInteger.ONE)
+        .loginId("loginId")
+        .loginPassword("loginPassword")
+        .nickName("nickName")
+        .userType(UserType.GENERAL)
+        .build();
+
+    Plant plant = Plant.builder()
+        .nickName("베리베리")
+        .plantName("산세베리아")
+        .firstDate(new Date(2023-04-05))
+        .plantId(BigInteger.ONE)
+        .user(user)
+        .build();
+
+    given(plantRepository.findById(any()))
+        .willReturn(Optional.of(plant));
+
+    // When
+    PlantDto savePlant = plantService.plantDelete(plant.getPlantId());
+
+    // Then
+    verify(plantRepository, times(1)).save(plant);
+
+    assertEquals(savePlant.getPlantStatus(), Status.UNUSED);
+  }
 }
