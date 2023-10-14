@@ -248,7 +248,7 @@ public class UserServiceTest {
         .willReturn(Optional.of(user));
 
     // When
-    User getUser = userService.getUser(user.getUserId());
+    User getUser = userService.userInfo(user.getUserId());
 
     // Then
     assertEquals(user.getUserId(), getUser.getUserId());

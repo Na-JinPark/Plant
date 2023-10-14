@@ -1,6 +1,7 @@
 package com.example.plant.controller;
 
 
+import com.example.plant.domain.User;
 import com.example.plant.dto.UserInfo;
 import com.example.plant.dto.UserJoin;
 import com.example.plant.service.UserService;
@@ -71,10 +72,8 @@ public class UserController {
    * 성공응답 : 사용자 아이디, 비밀번호, 닉네임, 사용자 유형
    */
   @GetMapping("user/{userId}")
-  public UserInfo.Response userInfo(
+  public User userInfo(
       @PathVariable BigInteger userId) {
-    return UserInfo.Response.from(
-        userService.userInfo(userId)
-    );
+    return userService.userInfo(userId);
   }
 }

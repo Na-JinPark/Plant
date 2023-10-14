@@ -1,0 +1,10 @@
+### PlantAdd(관리 식물 등록)
+POST http://localhost:8080/plant/add
+Content-Type: application/json
+
+{
+  "nickName": "베리베리",
+  "plantName": "산세베리아",
+  "firstDate": "2203-10-14",
+  "userId": 6
+}

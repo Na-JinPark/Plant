@@ -15,6 +15,7 @@ import com.example.plant.type.UserStatus;
 import com.example.plant.type.UserType;
 import java.math.BigInteger;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -84,20 +85,20 @@ public class UserService {
    * 사용자 정보 조회
    * 파라미터 : 로그인아이디
    */
-  public UserDto userInfo(BigInteger userId) {
+  public User userInfo(BigInteger userId) {
     User user = getUser(userId);
     userStatusChk(user);
-    return UserDto.fromEntity(user);
+    return user;
   }
 
-  public User getUser(BigInteger userId) {
+  private User getUser(BigInteger userId) {
     User user = userRepository.findByUserId(userId)
         .orElseThrow(() -> new PlantException(INVALID_USER));
 
     return user;
   }
 
-  public void userStatusChk(User user) {
+  private void userStatusChk(User user) {
     if (user.getUserStatus().equals(UserStatus.UNUSED)) {
       throw new PlantException(WITHDRAWN_USER);
     }

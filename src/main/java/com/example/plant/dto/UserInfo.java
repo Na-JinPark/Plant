@@ -2,6 +2,8 @@ package com.example.plant.dto;
 
 import com.example.plant.type.UserType;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import java.math.BigInteger;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +13,8 @@ public class UserInfo {
   @Getter
   public static class Request {
 
-    @NotEmpty
-    private String loginId;
+    @NotNull
+    private BigInteger userId;
   }
 
   @Getter
