@@ -12,6 +12,8 @@ import com.example.plant.repository.PlantRepository;
 import com.example.plant.type.Status;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -81,11 +83,23 @@ public class PlantService {
     return PlantDto.fromEntity(plant);
   }
 
+
   public Plant plantInfo(BigInteger plantId){
     Plant plant = plantRepository.findById(plantId)
         .orElseThrow(() -> new PlantException(NO_PLANT_INFORMATION));
     if(!plantStatus(plant)) throw new PlantException(UNUSED_PLANT_INFORMATION);
     return plant;
+  }
+
+  public List<PlantDto> getPlantList(BigInteger userId) {
+    User user = userService.userInfo(userId);
+
+    List<Plant> plants = plantRepository
+        .findByUserUserIdAndPlantStatus(user.getUserId(), Status.USED);
+
+    return plants.stream()
+        .map(PlantDto::fromEntity)
+        .collect((Collectors.toList()));
   }
 
   private boolean plantStatus(Plant plant){
@@ -94,7 +108,7 @@ public class PlantService {
   }
 
   private void chkPlantNickName(String nickName, BigInteger userId){
-    if(plantRepository.findByUser_UserIdAndNickNameAndPlantStatus(userId,nickName, Status.USED).isPresent()){
+    if(plantRepository.findByUserUserIdAndNickNameAndPlantStatus(userId,nickName, Status.USED).isPresent()){
         throw new PlantException(PLANT_SAME_NICKNAME);
     }
   }

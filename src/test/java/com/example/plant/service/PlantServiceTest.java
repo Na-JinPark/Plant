@@ -96,7 +96,7 @@ class PlantServiceTest {
 
     given(userService.userInfo(any()))
         .willReturn(user);
-    given(plantRepository.findByUser_UserIdAndNickNameAndPlantStatus(user.getUserId(), plant.getNickName(), Status.USED))
+    given(plantRepository.findByUserUserIdAndNickNameAndPlantStatus(user.getUserId(), plant.getNickName(), Status.USED))
         .willReturn(Optional.of(plant));
     // When
     PlantException exception = assertThrows(PlantException.class,
@@ -195,7 +195,7 @@ class PlantServiceTest {
     given(plantRepository.findById(any()))
         .willReturn(Optional.of(plant));
 
-    given(plantRepository.findByUser_UserIdAndNickNameAndPlantStatus(any(),any(),any()))
+    given(plantRepository.findByUserUserIdAndNickNameAndPlantStatus(any(),any(),any()))
         .willReturn(Optional.of(plant));
 
     // When

@@ -3,8 +3,8 @@ POST http://localhost:8080/plant/add
 Content-Type: application/json
 
 {
-  "nickName": "베리베리",
-  "plantName": "산세베리아",
+  "nickName": "행복이",
+  "plantName": "해피트리",
   "firstDate": "2203-10-14",
   "userId": 6
 }
@@ -25,3 +25,12 @@ Content-Type: application/json
 {
   "plantId": 2
 }
+
+### GET 식물 조회
+GET http://localhost:8080/plant/3
+Accept: application/json
+
+### GET 식물리스트 조회
+GET http://localhost:8080/plant/list/6
+Accept: application/json
+
