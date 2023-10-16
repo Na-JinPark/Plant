@@ -1,8 +1,6 @@
 package com.example.plant.domain;
 
 import com.example.plant.type.Status;
-import com.example.plant.type.UserStatus;
-import com.example.plant.type.UserType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -35,6 +33,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "plant")
 @EntityListeners(AuditingEntityListener.class)
 public class Plant {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private BigInteger plantId;

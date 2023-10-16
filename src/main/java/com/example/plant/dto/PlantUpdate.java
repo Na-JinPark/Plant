@@ -1,8 +1,6 @@
 package com.example.plant.dto;
 
-import com.example.plant.dto.PlantAdd.Response;
 import com.example.plant.type.Status;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Date;
@@ -11,6 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class PlantUpdate {
+
   @Getter
   public static class Request {
 

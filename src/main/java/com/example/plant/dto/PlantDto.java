@@ -9,7 +9,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class PlantDto{
+public class PlantDto {
+
   private BigInteger plantId;
   private String nickName;
   private String plantName;
@@ -18,7 +19,7 @@ public class PlantDto{
   private Status plantStatus;
   private BigInteger userId;
 
-  public static PlantDto fromEntity(Plant plant){
+  public static PlantDto fromEntity(Plant plant) {
     return PlantDto.builder()
         .plantId(plant.getPlantId())
         .nickName(plant.getNickName())

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PlantService {
+
   private final PlantRepository plantRepository;
   private final UserService userService;
 
@@ -28,7 +29,7 @@ public class PlantService {
    * 파라미터 : 식물 별칭, 종류, 사진, 키우기 시작한날짜, 사용자아이디
    * 정책 : 사용자는 여러 식물을 등록할 수 있으나 동일한 별칭으로 등록할 경우 실패 응답
    */
-  public PlantDto plantAdd(String nickName, String plantName, Date firstDate, BigInteger userId){
+  public PlantDto plantAdd(String nickName, String plantName, Date firstDate, BigInteger userId) {
 
     User user = userService.userInfo(userId);
 
@@ -49,18 +50,18 @@ public class PlantService {
    * 파라미터 : 식물 별칭, 종류, 사진, 키우기 시작한날짜, 식물 관리 여부
    * 정책 : 식물아이디가 존재 하지 않는 경우, 식물 관리 여부가 UNUSED인 경우, 변경할려는 별칭이 존재하는 경우 실패 응답
    */
-  public PlantDto plantUpdate(String nickName, String plantName, Date firstDate, BigInteger plantId){
+  public PlantDto plantUpdate(String nickName, String plantName, Date firstDate, BigInteger plantId) {
 
     Plant plant = plantInfo(plantId);
 
-    if(nickName != null){
+    if (nickName != null) {
       chkPlantNickName(nickName, plant.getUser().getUserId());
       plant.setNickName(nickName);
     }
-    if(plantName != null){
+    if (plantName != null) {
       plant.setPlantName(plantName);
     }
-    if(firstDate != null){
+    if (firstDate != null) {
       plant.setFirstDate(firstDate);
     }
 
@@ -74,7 +75,7 @@ public class PlantService {
    * 파라미터 : 식물 아이디
    * 정책 : 식물아이디가 존재 하지 않는 경우, 식물 관리 여부가 이미 UNUSED인 경우 실패 응답
    */
-  public PlantDto plantDelete(BigInteger plantId){
+  public PlantDto plantDelete(BigInteger plantId) {
 
     Plant plant = plantInfo(plantId);
     plant.setPlantStatus(Status.UNUSED);
@@ -84,10 +85,12 @@ public class PlantService {
   }
 
 
-  public Plant plantInfo(BigInteger plantId){
+  public Plant plantInfo(BigInteger plantId) {
     Plant plant = plantRepository.findById(plantId)
         .orElseThrow(() -> new PlantException(NO_PLANT_INFORMATION));
-    if(!plantStatus(plant)) throw new PlantException(UNUSED_PLANT_INFORMATION);
+    if (!plantStatus(plant)) {
+      throw new PlantException(UNUSED_PLANT_INFORMATION);
+    }
     return plant;
   }
 
@@ -102,14 +105,17 @@ public class PlantService {
         .collect((Collectors.toList()));
   }
 
-  private boolean plantStatus(Plant plant){
-    if(plant.getPlantStatus().equals(Status.USED)) return  true;
-    else return false;
+  private boolean plantStatus(Plant plant) {
+    if (plant.getPlantStatus().equals(Status.USED)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  private void chkPlantNickName(String nickName, BigInteger userId){
-    if(plantRepository.findByUserUserIdAndNickNameAndPlantStatus(userId,nickName, Status.USED).isPresent()){
-        throw new PlantException(PLANT_SAME_NICKNAME);
+  private void chkPlantNickName(String nickName, BigInteger userId) {
+    if (plantRepository.findByUserUserIdAndNickNameAndPlantStatus(userId, nickName, Status.USED).isPresent()) {
+      throw new PlantException(PLANT_SAME_NICKNAME);
     }
   }
 }

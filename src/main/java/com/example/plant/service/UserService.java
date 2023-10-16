@@ -15,7 +15,6 @@ import com.example.plant.type.UserStatus;
 import com.example.plant.type.UserType;
 import java.math.BigInteger;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,8 +1,6 @@
 package com.example.plant.dto;
 
-import com.example.plant.dto.UserJoin.Response;
 import com.example.plant.type.Status;
-import com.example.plant.type.UserType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigInteger;
@@ -12,6 +10,7 @@ import lombok.Getter;
 
 @Getter
 public class PlantAdd {
+
   @Getter
   public static class Request {
 
@@ -22,6 +21,7 @@ public class PlantAdd {
     @NotNull
     private BigInteger userId;
   }
+
   @Getter
   @Builder
   public static class Response {
