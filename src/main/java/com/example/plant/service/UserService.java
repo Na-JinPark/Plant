@@ -116,4 +116,7 @@ public class UserService {
   private void testFunction1(String a){
     String tt = a;
   }
+  private void testFunction2(String a){
+    String tt = a;
+  }
 }
